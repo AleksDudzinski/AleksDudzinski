@@ -1,36 +1,30 @@
 using UnityEngine;
 
-using System.Collections;
-using System.Collections.Generic;
-
 public class Ball : MonoBehaviour
 {
-    public float speed;
     public Rigidbody2D rb;
-    public Vector3 startPosition;
+    public float startingSpeed = 5f;
 
-    // Start is called before the first frame update
+    private Vector2 startPos;
+
     void Start()
     {
-        startPosition = transform.position;
-        Launch();
+        startPos = transform.position;
+        LaunchBall();
     }
 
-    public void Reset()
+    void LaunchBall()
     {
-        rb.linearVelocity = Vector2.zero;
-        transform.position = startPosition;
-        Launch();
-    }
-    void Update()
-    {
-
+        bool isRight = UnityEngine.Random.value >= 0.5f;
+        float xVelocity = isRight ? 1f : -1f;
+        float yVelocity = UnityEngine.Random.Range(-0.5f, 0.5f);
+        rb.velocity = new Vector2(xVelocity, yVelocity).normalized * startingSpeed;
     }
 
-    private void Launch()
+    public void ResetPosition()
     {
-        float x = Random.Range(0, 2) == 0 ? -1 : 1;
-        float y = Random.Range(0, 2) == 0 ? -1 : 1;
-        rb.linearVelocity = new Vector2(speed * x, speed * y);
+        rb.velocity = Vector2.zero;
+        transform.position = startPos;
+        Invoke(nameof(LaunchBall), 1f); // pi³ka rusza ponownie po 1s
     }
 }

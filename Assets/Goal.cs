@@ -1,28 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    public bool isPlayer1Goal;
+    [Tooltip("Zaznacz TRUE jeœli to bramka gracza 1 (po lewej stronie)")]
+    public bool isPlayerOneGoal = true;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private GameManager gm;
+
+    void Start()
     {
-        if (collision.gameObject.CompareTag("Ball"))
-        {
-            {
+        gm = FindObjectOfType<GameManager>();
+        if (gm == null)
+            Debug.LogError("Brak GameManagera w scenie!");
+    }
 
-            }
-            if (isPlayer1Goal)
-            {
-                Debug.Log("Player 2 Scored...");
-                GameObject.Find("GameManager").GetComponent<GameManager>().Player2Scored();
-            }
-            else
-            {
-                Debug.Log("Player 1 Scored...");
-                GameObject.Find("GameManager").GetComponent<GameManager>().Player1Scored();
-            }
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Ball"))
+        {
+            gm.GoalScored(isPlayerOneGoal);
         }
     }
 }
