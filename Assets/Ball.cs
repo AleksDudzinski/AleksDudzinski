@@ -25,6 +25,11 @@ public class Ball : MonoBehaviour
     {
         rb.velocity = Vector2.zero;
         transform.position = startPos;
-        Invoke(nameof(LaunchBall), 1f); // pi³ka rusza ponownie po 1s
+        Invoke(nameof(LaunchBall), 1f);
+    }
+
+    public void StopBall()
+    {
+        rb.velocity = Vector2.zero;
     }
 }
